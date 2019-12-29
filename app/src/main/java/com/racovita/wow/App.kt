@@ -1,6 +1,7 @@
 package com.racovita.wow
 
 import android.app.Application
+import com.racovita.wow.features.produts.productsModule
 import com.racovita.wow.utils.utilsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -23,7 +24,7 @@ class App : Application() {
             androidContext(this@App)
 
             // modules
-            modules(utilsModule)
+            modules(utilsModule + productsModule)
         }
     }
 }

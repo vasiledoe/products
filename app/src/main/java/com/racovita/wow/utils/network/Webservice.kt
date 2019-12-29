@@ -1,6 +1,7 @@
 package com.racovita.wow.utils.network
 
-import com.racovita.wow.data.models.Product
+import com.racovita.wow.data.models.ApiProduct
+import com.racovita.wow.features.produts.repo.ProductsRepo
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -14,13 +15,13 @@ import retrofit2.http.Query
 interface Webservice {
 
     @GET("products")
-    fun getProducts(
+    fun getProductsCall(
         @Query("offset") offset: Int,
-        @Query("limit") limit: Int
-    ): Single<Array<Product>>
+        @Query("limit") limit: Int = ProductsRepo.MAX_PAGE_ITEMS
+    ): Single<Array<ApiProduct>>
 
     @GET("product")
-    fun getProductDetails(
+    fun getProductDetailsCall(
         @Query("id") id: Int
-    ): Single<Array<Product>>
+    ): Single<Array<ApiProduct>>
 }

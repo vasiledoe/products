@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+def STRING = "String"
+def BASE_ENDPOINT = "BASE_ENDPOINT"
+
+
 android {
     compileSdkVersion 29
 
@@ -34,10 +38,14 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
+            buildConfigField(STRING, BASE_ENDPOINT, project.BASE_ENDPOINT_RELEASE)
+
             signingConfig signingConfigs.release
         }
 
         debug {
+            buildConfigField(STRING, BASE_ENDPOINT, project.BASE_ENDPOINT_RELEASE)
+
             // add some specific logic for debug version like disabling Crashlytics
         }
     }

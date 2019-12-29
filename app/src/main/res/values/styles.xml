@@ -32,8 +32,8 @@
         <item name="android:textSize">@dimen/txt_small</item>
     </style>
 
-    <style name="TextView.Primary.Large" parent="@android:style/Widget.Material.TextView">
-        <item name="android:textColor">@color/primary_text</item>
+    <style name="TextView.Primary.Title" parent="@android:style/Widget.Material.TextView">
+        <item name="android:textColor">@color/primary</item>
         <item name="android:textSize">@dimen/txt_large</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -41,7 +41,6 @@
     <style name="TextView.Price" parent="@android:style/Widget.Material.TextView">
         <item name="android:textColor">@color/primary</item>
         <item name="android:textSize">@dimen/txt_large</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

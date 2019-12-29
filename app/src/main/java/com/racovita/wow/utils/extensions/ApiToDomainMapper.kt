@@ -14,7 +14,7 @@ fun ApiProduct.toDomain(): Product {
         image = image.getSafeImgUrl(),
         price = "$".plus(" ").plus(price.getSafeValue().toString()),
         sale = getOldPrice(price, sale),
-        details = shortDescr ?: "",
+        details = details ?: "",
         favorite = false
     )
 }

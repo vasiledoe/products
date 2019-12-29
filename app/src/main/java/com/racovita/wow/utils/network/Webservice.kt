@@ -23,5 +23,5 @@ interface Webservice {
     @GET("product")
     fun getProductDetailsCall(
         @Query("id") id: Int
-    ): Single<Array<ApiProduct>>
+    ): Single<ApiProduct>
 }

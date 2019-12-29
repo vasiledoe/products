@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.racovita.wow.R
 import com.racovita.wow.data.models.Product
+import com.racovita.wow.utils.extensions.debouncedClick
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.custom_product_item.view.*
 
@@ -66,7 +67,7 @@ class ProductsAdapter(
 
             Picasso.get().load(product.image).error(R.color.divider).into(ivThumb)
 
-            wholeZone.setOnClickListener { listener(product.id) }
+            wholeZone.debouncedClick { listener(product.id) }
 
             if (product.favorite) {
                 btnFav.setImageResource(R.drawable.ic_favorite_on)

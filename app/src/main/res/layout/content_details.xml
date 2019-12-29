@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/whole_item"
+    android:id="@+id/zone_details"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/material_margin_s"
-    android:layout_marginTop="@dimen/material_margin_s"
-    android:layout_marginEnd="@dimen/material_margin_s">
+    android:layout_height="match_parent"
+    tools:context="com.racovita.wow.features.details.view.ActivityDetails"
+    tools:showIn="@layout/activity_details">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:foreground="?attr/selectableItemBackground"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
         android:orientation="vertical"
         android:paddingBottom="@dimen/material_margin_s">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dim_card_img_height">
+            android:layout_height="@dimen/dim_img_height">
 
             <ImageView
                 android:id="@+id/iv_thumb"
@@ -33,14 +31,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_margin="-12dp"
-                android:layout_marginEnd="4dp"
+                android:layout_margin="-16dp"
+                android:layout_marginTop="@dimen/material_margin_s"
+                android:layout_marginEnd="@dimen/material_margin_xs"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="12dp"
+                android:padding="16dp"
                 android:src="@drawable/ic_favorite_off"
                 tools:ignore="ContentDescription" />
         </RelativeLayout>
-
 
         <TextView
             android:id="@+id/tv_title"
@@ -58,13 +56,13 @@
         <TextView
             android:id="@+id/tv_short_description"
             style="@style/TextView.Secondary"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/material_margin"
             android:layout_marginTop="@dimen/material_margin"
             android:layout_marginEnd="@dimen/material_margin"
             android:ellipsize="end"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:maxLines="3"
             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat" />
 
@@ -92,6 +90,35 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/material_margin"
+            android:background="@color/divider" />
+
+        <TextView
+            style="@style/TextView.Primary.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/material_margin"
+            android:layout_marginTop="@dimen/material_margin"
+            android:layout_marginEnd="@dimen/material_margin"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:text="@string/info"
+            android:textAllCaps="true" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            style="@style/TextView.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/material_margin"
+            android:layout_marginTop="@dimen/material_margin_s"
+            android:layout_marginEnd="@dimen/material_margin"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat" />
+
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.core.widget.NestedScrollView>

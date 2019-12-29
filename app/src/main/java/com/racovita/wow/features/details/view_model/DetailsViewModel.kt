@@ -1,4 +1,4 @@
-package com.racovita.wow.features.produts.view_model
+package com.racovita.wow.features.details.view_model
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
@@ -8,9 +8,7 @@ import com.racovita.wow.R
 import com.racovita.wow.data.models.ApiProduct
 import com.racovita.wow.data.models.Product
 import com.racovita.wow.features.details.repo.ProductDetailsRepo
-import com.racovita.wow.features.produts.repo.ProductsRepo
 import com.racovita.wow.utils.extensions.getPrettyErrorMessage
-import com.racovita.wow.utils.extensions.plusAssign
 import com.racovita.wow.utils.extensions.safelyDispose
 import com.racovita.wow.utils.extensions.toDomain
 import com.racovita.wow.utils.helper.ResUtil
@@ -19,27 +17,16 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class ProductsViewModel(
-    private val repo: ProductsRepo,
+class DetailsViewModel(
+    private val repo: ProductDetailsRepo,
     private val resUtil: ResUtil
 ) : ViewModel() {
 
     /**
-     * Used to store all items and show them when screen orientation change.
+     * Used to publish [Product] to UI
+     *
      */
-    private val productsTemp = MutableLiveData<ArrayList<Product>>()
-
-    /**
-     * Used to publish items to UI, each page or value of [productsTemp] when screen
-     * orientation change.
-     */
-    val products = MutableLiveData<List<Product>>()
-
-    /**
-     * Used to keep pagination data simple to use.
-     */
-    var hasNextPage: Boolean = false
-    var offset: Int = 0
+    val product = MutableLiveData<Product>()
 
     /**
      * Used to track loading progress bar state & notify it to UI.
@@ -52,7 +39,7 @@ class ProductsViewModel(
     val error = MutableLiveData<String>()
 
     /**
-     * Store here all disposables and cancel them all when [ProductsViewModel] is destroyed.
+     * Store here all disposables and cancel them all when [DetailsViewModel] is destroyed.
      */
     private var mDisposables = CompositeDisposable()
 
@@ -62,13 +49,12 @@ class ProductsViewModel(
      */
     private var mConnectionDisposable: Disposable? = null
 
-
     /**
      * Called in owner Activity when it's started or screen orientation is changed so
      * if already have data - ignore calling API because
-     * Activity will receive items from existing LiveData, else initiate API request.
+     * Activity will receive item from existing LiveData, else initiate API request.
      */
-    fun getProducts() {
+    fun getProduct(productId: Int) {
         /**
          *  nullify error value because after screen rotation if there was any errors,
          *  UI will get the last one
@@ -80,11 +66,11 @@ class ProductsViewModel(
          */
         mDisposables.clear()
 
-        if (productsTemp.value != null) {
-            products.value = productsTemp.value
-
-        } else {
-            tryGetData()
+        /**
+         * Do request on;y if data is missing
+         */
+        if (product.value == null) {
+            tryGetData(productId)
         }
     }
 
@@ -92,7 +78,7 @@ class ProductsViewModel(
      * Check if has Internet connection, if no then wait to connect and then do request.
      */
     @SuppressLint("CheckResult")
-    fun tryGetData() {
+    fun tryGetData(productId: Int) {
         ReactiveNetwork.observeInternetConnectivity()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -103,7 +89,7 @@ class ProductsViewModel(
             .subscribe { isConnectedToInternet ->
 
                 if (isConnectedToInternet) {
-                    getData()
+                    getData(productId)
                     mConnectionDisposable.safelyDispose()
 
                 } else {
@@ -115,12 +101,11 @@ class ProductsViewModel(
     /**
      * Do Api request.
      */
-    private fun getData() {
-        if (offset == 0)
-            loadingState.value = true
+    private fun getData(productId: Int) {
+        loadingState.value = true
 
         mDisposables.add(
-            repo.getProducts(offset)
+            repo.getProducts(productId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate {
                     loadingState.value = false
@@ -133,20 +118,11 @@ class ProductsViewModel(
     }
 
     /**
-     * Manage successfully server response storing pagination data to local vars &
-     * adding items to [productsTemp] to notify UI &
-     * storing items to [productsTemp] for screen orientation backup.
-     *
-     * Detect pagination details: if array contain [ProductDetailsRepo.MAX_PAGE_ITEMS] items
-     * it means there could be pagination
+     * Manage successfully server response
      */
-    private fun onHandleSuccess(products: Array<ApiProduct>) {
-        val items = products.map { it.toDomain() }
-        this.products.value = items
-        productsTemp += items
-
-        hasNextPage = products.size == ProductsRepo.MAX_PAGE_ITEMS
-        offset += ProductsRepo.MAX_PAGE_ITEMS
+    private fun onHandleSuccess(product: ApiProduct) {
+        val item = product.toDomain()
+        this.product.value = item
     }
 
     /**
@@ -155,7 +131,6 @@ class ProductsViewModel(
     private fun onHandleError(t: Throwable) {
         error.value = t.getPrettyErrorMessage(resUtil)
     }
-
 
     /**
      * Clear all disposables if ViewModel is cleared. It happens when Activity owner doesn't

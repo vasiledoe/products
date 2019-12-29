@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.racovita.wow.R
 import com.racovita.wow.data.models.Product
+import com.racovita.wow.features.base.view.BaseActivity
 import com.racovita.wow.features.produts.view_model.ProductsViewModel
 import com.racovita.wow.utils.extensions.hide
 import com.racovita.wow.utils.extensions.show
@@ -17,7 +17,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ProductsActivity : AppCompatActivity() {
+
+class ProductsActivity : BaseActivity() {
 
     private val mViewModel by viewModel<ProductsViewModel>()
     private lateinit var mItemsAdapter: ProductsAdapter
@@ -127,7 +128,7 @@ class ProductsActivity : AppCompatActivity() {
             mItemsAdapter.addItems(products)
 
         } else {
-            showError(resources.getString(R.string.err_no_items))
+            showError(resources.getString(R.string.err_no_data))
         }
     }
 
@@ -140,7 +141,7 @@ class ProductsActivity : AppCompatActivity() {
      * how I'll do it ;)
      */
     private fun openItem(productId: Int) {
-        //todo jump to details activity with extra
+        goToDetails(productId)
     }
 
     /**

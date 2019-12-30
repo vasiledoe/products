@@ -10,5 +10,6 @@
     <dimen name="txt_large">20sp</dimen>
 
     <dimen name="dim_card_img_height">160dp</dimen>
+    <dimen name="dim_img_height">240dp</dimen>
 
 </resources>

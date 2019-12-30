@@ -1,23 +1,26 @@
 package com.racovita.wow.features.produts.view
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.racovita.wow.R
 import com.racovita.wow.data.models.Product
+import com.racovita.wow.features.base.view.BaseActivity
+import com.racovita.wow.features.favorites.view.ActivityFavorites
 import com.racovita.wow.features.produts.view_model.ProductsViewModel
 import com.racovita.wow.utils.extensions.hide
 import com.racovita.wow.utils.extensions.show
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.content_products.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ProductsActivity : AppCompatActivity() {
+
+class ProductsActivity : BaseActivity() {
 
     private val mViewModel by viewModel<ProductsViewModel>()
     private lateinit var mItemsAdapter: ProductsAdapter
@@ -26,20 +29,15 @@ class ProductsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_products)
 
-        setupViews()
+        setupActionBar(resources.getString(R.string.home), false)
 
         setupItemsAdapter()
 
         onBindModel()
 
         mViewModel.getProducts()
-    }
-
-    private fun setupViews() {
-        toolbar.title = resources?.getString(R.string.home)
-        setSupportActionBar(toolbar)
     }
 
     /**
@@ -68,7 +66,8 @@ class ProductsActivity : AppCompatActivity() {
         mItemsAdapter =
             ProductsAdapter(
                 items = mutableListOf(),
-                onClickItemListener = { openItem(it) })
+                onClickItemListener = { goToDetails(it) },
+                onFavoriteListener = { mViewModel.changeDbFavoriteStatus(it) })
 
         rv_items.layoutManager = linearLayoutManager
         rv_items.adapter = mItemsAdapter
@@ -127,20 +126,8 @@ class ProductsActivity : AppCompatActivity() {
             mItemsAdapter.addItems(products)
 
         } else {
-            showError(resources.getString(R.string.err_no_items))
+            showError(resources.getString(R.string.err_no_data))
         }
-    }
-
-    /**
-     * For reviewers
-     *
-     * Because we receive same product data from get all products request.
-     * we can just pass parcelable to details activity and no need to
-     * do get details request. I guess you set different request just to see
-     * how I'll do it ;)
-     */
-    private fun openItem(productId: Int) {
-        //todo jump to details activity with extra
     }
 
     /**
@@ -170,12 +157,31 @@ class ProductsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_favorite -> {
-                //todo add here fav logic
-
+                startActivityForResult(
+                    Intent(this, ActivityFavorites::class.java),
+                    CODE_RECEIVED_FAVORITE_META
+                )
                 return true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    /**
+     * Here we receive a [HashMap] with products that changed status from [ActivityDetails] or
+     * from [ActivityFavorites]
+     *
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == CODE_RECEIVED_FAVORITE_META && resultCode == Activity.RESULT_OK) {
+            data?.let {
+                val meta = it.getSerializableExtra(FAVORITE_META_EXTRA) as HashMap<Int, Boolean>
+                mViewModel.updateRepoDataFavState(meta)
+                mItemsAdapter.updateItemsFavState(meta)
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

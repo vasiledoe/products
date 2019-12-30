@@ -1,6 +1,5 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
@@ -11,15 +10,6 @@
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowBackground">@drawable/bg_splash_screen</item>
     </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
     <style name="TextView.Secondary" parent="@android:style/Widget.Material.TextView">
@@ -32,8 +22,8 @@
         <item name="android:textSize">@dimen/txt_small</item>
     </style>
 
-    <style name="TextView.Primary.Large" parent="@android:style/Widget.Material.TextView">
-        <item name="android:textColor">@color/primary_text</item>
+    <style name="TextView.Primary.Title" parent="@android:style/Widget.Material.TextView">
+        <item name="android:textColor">@color/primary</item>
         <item name="android:textSize">@dimen/txt_large</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -41,7 +31,6 @@
     <style name="TextView.Price" parent="@android:style/Widget.Material.TextView">
         <item name="android:textColor">@color/primary</item>
         <item name="android:textSize">@dimen/txt_large</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

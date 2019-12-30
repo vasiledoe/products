@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.racovita.wow">
 
-<!--    Here we use [usesCleartextTraffic] because api service doesn't use SSL, -->
-<!--    also we can config it using a xml file and there mention all exceptions-->
+    <!--    Here we use [usesCleartextTraffic] because api service doesn't use SSL, -->
+    <!--    also we can config it using a xml file and there mention all exceptions-->
 
     <application
         android:name=".App"
@@ -13,8 +13,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
 
@@ -28,9 +28,11 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.racovita.wow.features.produts.view.ProductsActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.racovita.wow.features.produts.view.ProductsActivity" />
+
+        <activity android:name=".features.details.view.ActivityDetails" />
+
+        <activity android:name=".features.favorites.view.ActivityFavorites" />
 
     </application>
 

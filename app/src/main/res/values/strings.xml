@@ -2,8 +2,10 @@
     <string name="app_name">Wow</string>
     <string name="action_favorite">Favorites</string>
     <string name="home">Home</string>
+    <string name="details">Details</string>
+    <string name="info">Information</string>
 
-    <string name="err_no_items">No items found.</string>
+    <string name="err_no_data">No data found.</string>
     <string name="err_ops">Oops an error occurred, please try again later.</string>
     <string name="err_bad_connection">Oops your Internet connection seems to be really bad, please reconnect and try again.</string>
     <string name="err_no_connection">No connection.</string>

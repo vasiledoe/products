@@ -9,7 +9,6 @@ import com.racovita.wow.R
 import com.racovita.wow.data.models.Product
 import com.racovita.wow.features.base.view.BaseActivity
 import com.racovita.wow.features.details.view_model.DetailsViewModel
-import com.racovita.wow.features.produts.view.ProductsActivity
 import com.racovita.wow.utils.extensions.debouncedClick
 import com.racovita.wow.utils.extensions.hide
 import com.racovita.wow.utils.extensions.show
@@ -19,7 +18,7 @@ import kotlinx.android.synthetic.main.content_details.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class ActivityDetails : BaseActivity() {
+class DetailsActivity : BaseActivity() {
 
     private val mViewModel by viewModel<DetailsViewModel>()
 
@@ -50,7 +49,7 @@ class ActivityDetails : BaseActivity() {
     }
 
     /**
-     * Listen to data pushed from [ProductsAdapter]
+     * Listen to data to update UI
      */
     private fun onBindModel() {
         mViewModel.error.observe(this, Observer { errorStr ->
@@ -86,7 +85,7 @@ class ActivityDetails : BaseActivity() {
     }
 
     /**
-     * Show error if something's gone wrong.
+     * Show error if something's gone wrong or no data
      */
     private fun showError(err: String?) {
         err?.let {

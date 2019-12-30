@@ -1,4 +1,4 @@
-package com.racovita.wow.features.produts.repo
+package com.racovita.wow.features.products.repo
 
 import com.racovita.wow.data.db.AppDatabase
 import com.racovita.wow.data.models.ApiProduct

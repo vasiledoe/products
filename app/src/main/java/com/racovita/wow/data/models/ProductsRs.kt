@@ -2,8 +2,6 @@ package com.racovita.wow.data.models
 
 import com.google.gson.annotations.SerializedName
 
-const val FAVORITE_PRODUCTS: String = "fav_products"
-
 /**
  * For reviewers
  *

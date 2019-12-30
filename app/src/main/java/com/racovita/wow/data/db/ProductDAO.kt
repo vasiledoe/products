@@ -4,8 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.racovita.wow.data.models.FAVORITE_PRODUCTS
 import com.racovita.wow.data.models.Product
+
+const val FAVORITE_PRODUCTS: String = "fav_products"
 
 @Dao
 interface ProductDAO {

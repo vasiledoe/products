@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.racovita.wow.data.models.Product
+import com.racovita.wow.features.details.view.DetailsActivity
 import com.racovita.wow.features.favorites.repo.FavoritesRepo
+import com.racovita.wow.features.products.view.ProductsActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -62,7 +64,7 @@ class FavoritesViewModel(
     }
 
     /**
-     * Update local data & add items to propogate from [ActivityDetails] to [ProductsActivity]
+     * Update local data & add items to propagate from [DetailsActivity] to [ProductsActivity]
      */
     fun updateRepoDataFavState(metaToUpdate: HashMap<Int, Boolean>) {
         for ((productId, isFavorite) in metaToUpdate) {
@@ -71,7 +73,7 @@ class FavoritesViewModel(
         }
     }
 
-    fun removeFromProducts(productId: Int) {
+    private fun removeFromProducts(productId: Int) {
         products.value?.let { items ->
             val indexPosition = items.indexOf(items.find { it.id == productId })
             items.removeAt(indexPosition)

@@ -4,7 +4,7 @@
     android:id="@+id/coordinator_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.racovita.wow.features.details.view.ActivityDetails">
+    tools:context="com.racovita.wow.features.details.view.DetailsActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

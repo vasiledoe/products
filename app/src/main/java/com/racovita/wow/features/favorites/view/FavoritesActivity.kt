@@ -3,20 +3,21 @@ package com.racovita.wow.features.favorites.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.racovita.wow.R
 import com.racovita.wow.data.models.Product
 import com.racovita.wow.features.base.view.BaseActivity
+import com.racovita.wow.features.details.view.DetailsActivity
 import com.racovita.wow.features.favorites.view_model.FavoritesViewModel
+import com.racovita.wow.features.products.view.ProductsActivity
 import com.racovita.wow.utils.extensions.hide
 import com.racovita.wow.utils.extensions.show
 import kotlinx.android.synthetic.main.content_products.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ActivityFavorites : BaseActivity() {
+class FavoritesActivity : BaseActivity() {
 
     private val mViewModel by viewModel<FavoritesViewModel>()
     private lateinit var mItemsAdapter: FavoritesAdapter
@@ -40,7 +41,7 @@ class ActivityFavorites : BaseActivity() {
     }
 
     /**
-     * Listen to data pushed from [FavoritesAdapter]
+     * Listen to data to update UI
      */
     private fun onBindModel() {
         mViewModel.products.observe(this, Observer { items ->
@@ -98,6 +99,11 @@ class ActivityFavorites : BaseActivity() {
         }
     }
 
+    /**
+     * Send all changed favorite statuses to [ProductsActivity] - this way is safer and more
+     * optimised then sending events for each action, because user can exit app here and no need
+     * to consume extra resource to update that unused screen
+     */
     override fun finish() {
         val returnIntent = Intent()
         returnIntent.putExtra(FAVORITE_META_EXTRA, mViewModel.chagedFavoriteMeta)
@@ -106,9 +112,7 @@ class ActivityFavorites : BaseActivity() {
     }
 
     /**
-     * Here we receive a [HashMap] with products that changed status from [ActivityDetails] or
-     * from [ActivityFavorites]
-     *
+     * Here we receive a [HashMap] with products that changed status from [DetailsActivity]
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CODE_RECEIVED_FAVORITE_META && resultCode == Activity.RESULT_OK) {

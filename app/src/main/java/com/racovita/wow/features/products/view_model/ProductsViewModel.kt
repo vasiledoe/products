@@ -1,4 +1,4 @@
-package com.racovita.wow.features.produts.view_model
+package com.racovita.wow.features.products.view_model
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
@@ -8,8 +8,7 @@ import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import com.racovita.wow.R
 import com.racovita.wow.data.models.ApiProduct
 import com.racovita.wow.data.models.Product
-import com.racovita.wow.features.details.repo.ProductDetailsRepo
-import com.racovita.wow.features.produts.repo.ProductsRepo
+import com.racovita.wow.features.products.repo.ProductsRepo
 import com.racovita.wow.utils.extensions.getPrettyErrorMessage
 import com.racovita.wow.utils.extensions.plusAssign
 import com.racovita.wow.utils.extensions.safelyDispose
@@ -140,7 +139,7 @@ class ProductsViewModel(
      * adding items to [productsTemp] to notify UI &
      * storing items to [productsTemp] for screen orientation backup.
      *
-     * Detect pagination details: if array contain [ProductDetailsRepo.MAX_PAGE_ITEMS] items
+     * Detect pagination details: if array contain [ProductsRepo.MAX_PAGE_ITEMS] items
      * it means there could be pagination
      */
     private fun onHandleSuccess(productsArray: Array<ApiProduct>) {

@@ -4,7 +4,7 @@
     android:id="@+id/coordinator_products"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.produts.view.ProductsActivity">
+    tools:context=".features.products.view.ProductsActivity">
 
     <include layout="@layout/content_products" />
 

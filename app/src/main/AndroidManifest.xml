@@ -28,11 +28,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.racovita.wow.features.produts.view.ProductsActivity" />
+        <activity android:name="com.racovita.wow.features.products.view.ProductsActivity" />
 
-        <activity android:name=".features.details.view.ActivityDetails" />
+        <activity android:name=".features.details.view.DetailsActivity" />
 
-        <activity android:name=".features.favorites.view.ActivityFavorites" />
+        <activity android:name=".features.favorites.view.FavoritesActivity" />
 
     </application>
 

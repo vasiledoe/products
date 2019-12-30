@@ -6,7 +6,7 @@ import com.racovita.wow.data.models.Product
 /**
  * Format object data as is required to consume it in app.
  */
-fun ApiProduct.toDomain(): Product {
+fun ApiProduct.toDomain(favoriteStatus: Boolean): Product {
     return Product(
         id = id,
         title = title ?: "",
@@ -15,7 +15,7 @@ fun ApiProduct.toDomain(): Product {
         price = "$".plus(" ").plus(price.getSafeValue().toString()),
         sale = getOldPrice(price, sale),
         details = details ?: "",
-        favorite = false
+        favorite = favoriteStatus
     )
 }
 
@@ -34,4 +34,8 @@ fun String?.getSafeImgUrl(): String {
     } else {
         this
     }
+}
+
+fun Product.toFavorite() = apply {
+    favorite = true
 }

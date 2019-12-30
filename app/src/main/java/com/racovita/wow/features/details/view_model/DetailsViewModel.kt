@@ -3,6 +3,7 @@ package com.racovita.wow.features.details.view_model
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import com.racovita.wow.R
 import com.racovita.wow.data.models.ApiProduct
@@ -16,6 +17,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DetailsViewModel(
     private val repo: ProductDetailsRepo,
@@ -48,6 +51,11 @@ class DetailsViewModel(
      * in case it's connected  just dispose it.
      */
     private var mConnectionDisposable: Disposable? = null
+
+    /**
+     * Store here pair of product ID & favorite status in case favorite status has changed
+     */
+    var chagedFavoriteMeta: HashMap<Int, Boolean> = hashMapOf()
 
     /**
      * Called in owner Activity when it's started or screen orientation is changed so
@@ -105,7 +113,7 @@ class DetailsViewModel(
         loadingState.value = true
 
         mDisposables.add(
-            repo.getProducts(productId)
+            repo.getProductDetails(productId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate {
                     loadingState.value = false
@@ -118,11 +126,19 @@ class DetailsViewModel(
     }
 
     /**
-     * Manage successfully server response
+     * For reviewer!!!
+     *
+     * In real system favorite status must be received from server!
+     *
+     * Manage successfully server response & add favorite status from DB
      */
-    private fun onHandleSuccess(product: ApiProduct) {
-        val item = product.toDomain()
-        this.product.value = item
+    private fun onHandleSuccess(prod: ApiProduct) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val favStatus = repo.isFavorite(prod.id)
+            val item = prod.toDomain(favStatus)
+
+            product.postValue(item)
+        }
     }
 
     /**
@@ -130,6 +146,26 @@ class DetailsViewModel(
      */
     private fun onHandleError(t: Throwable) {
         error.value = t.getPrettyErrorMessage(resUtil)
+    }
+
+    /**
+     * Update [product] that will auto update UI & insert/remove it from favorite DB table
+     */
+    fun changeDbFavoriteStatus() {
+        product.value?.let {
+            it.favorite = !it.favorite
+            product.value = it
+            chagedFavoriteMeta[it.id] = it.favorite
+
+            viewModelScope.launch(Dispatchers.IO) {
+                if (it.favorite) {
+                    repo.addFavorite(it)
+
+                } else {
+                    repo.removeFavorite(it.id)
+                }
+            }
+        }
     }
 
     /**

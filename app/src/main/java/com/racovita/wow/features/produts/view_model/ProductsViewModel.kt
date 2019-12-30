@@ -3,6 +3,7 @@ package com.racovita.wow.features.produts.view_model
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import com.racovita.wow.R
 import com.racovita.wow.data.models.ApiProduct
@@ -18,6 +19,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ProductsViewModel(
     private val repo: ProductsRepo,
@@ -140,13 +143,21 @@ class ProductsViewModel(
      * Detect pagination details: if array contain [ProductDetailsRepo.MAX_PAGE_ITEMS] items
      * it means there could be pagination
      */
-    private fun onHandleSuccess(products: Array<ApiProduct>) {
-        val items = products.map { it.toDomain() }
-        this.products.value = items
-        productsTemp += items
-
-        hasNextPage = products.size == ProductsRepo.MAX_PAGE_ITEMS
+    private fun onHandleSuccess(productsArray: Array<ApiProduct>) {
+        hasNextPage = productsArray.size == ProductsRepo.MAX_PAGE_ITEMS
         offset += ProductsRepo.MAX_PAGE_ITEMS
+
+        viewModelScope.launch(Dispatchers.Default) {
+            val favoritesProdIds = repo.getFavoriteIds()
+            val items = productsArray.map {
+                it.toDomain(favoritesProdIds.contains(it.id))
+            }
+
+            launch(Dispatchers.Main) {
+                products.value = items
+                productsTemp += items
+            }
+        }
     }
 
     /**
@@ -156,6 +167,27 @@ class ProductsViewModel(
         error.value = t.getPrettyErrorMessage(resUtil)
     }
 
+
+    fun changeDbFavoriteStatus(product: Product) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (product.favorite) {
+                repo.addFavorite(product)
+
+            } else {
+                repo.removeFavorite(product.id)
+            }
+        }
+
+        updateRepoDataFavState(hashMapOf(product.id to product.favorite))
+    }
+
+    fun updateRepoDataFavState(metaToUpdate: HashMap<Int, Boolean>) {
+        for ((productId, isFavorite) in metaToUpdate) {
+            productsTemp.value?.let { items ->
+                items.find { it.id == productId }?.favorite = isFavorite
+            }
+        }
+    }
 
     /**
      * Clear all disposables if ViewModel is cleared. It happens when Activity owner doesn't

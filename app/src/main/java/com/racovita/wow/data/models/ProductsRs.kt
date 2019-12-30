@@ -2,6 +2,8 @@ package com.racovita.wow.data.models
 
 import com.google.gson.annotations.SerializedName
 
+const val FAVORITE_PRODUCTS: String = "fav_products"
+
 /**
  * For reviewers
  *
@@ -21,18 +23,4 @@ data class ApiProduct(
     val price: Int?,
     @SerializedName("sale_precent") val sale: Int?,
     val details: String?
-)
-
-/**
- * Used in adapter
- */
-data class Product(
-    val id: Int,
-    val title: String,
-    val shortDescr: String,
-    val image: String,
-    val price: String,
-    val sale: String,
-    val details: String,
-    val favorite: Boolean
 )

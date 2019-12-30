@@ -1,5 +1,7 @@
 package com.racovita.wow.features.details.view
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -7,7 +9,7 @@ import com.racovita.wow.R
 import com.racovita.wow.data.models.Product
 import com.racovita.wow.features.base.view.BaseActivity
 import com.racovita.wow.features.details.view_model.DetailsViewModel
-import com.racovita.wow.features.produts.view.ProductsAdapter
+import com.racovita.wow.features.produts.view.ProductsActivity
 import com.racovita.wow.utils.extensions.debouncedClick
 import com.racovita.wow.utils.extensions.hide
 import com.racovita.wow.utils.extensions.show
@@ -20,6 +22,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class ActivityDetails : BaseActivity() {
 
     private val mViewModel by viewModel<DetailsViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +42,10 @@ class ActivityDetails : BaseActivity() {
     }
 
     private fun setupViews() {
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            title = resources.getString(R.string.details)
-        }
+        setupActionBar(resources.getString(R.string.details), true)
 
         btn_favorite.debouncedClick {
-            //todo add or remove from DB
+            mViewModel.changeDbFavoriteStatus()
         }
     }
 
@@ -97,6 +97,12 @@ class ActivityDetails : BaseActivity() {
         }
     }
 
+    override fun finish() {
+        val returnIntent = Intent()
+        returnIntent.putExtra(FAVORITE_META_EXTRA, mViewModel.chagedFavoriteMeta)
+        setResult(Activity.RESULT_OK, returnIntent)
+        super.finish()
+    }
 
     companion object {
         const val EXTRA_PROD_ID = "EXTRA_PROD_ID"

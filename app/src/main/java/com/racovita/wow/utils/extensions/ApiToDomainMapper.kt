@@ -35,7 +35,3 @@ fun String?.getSafeImgUrl(): String {
         this
     }
 }
-
-fun Product.toFavorite() = apply {
-    favorite = true
-}

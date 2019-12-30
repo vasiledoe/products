@@ -1,4 +1,4 @@
-package com.racovita.wow.features.produts.view
+package com.racovita.wow.features.products.view
 
 import com.racovita.wow.data.models.Product
 import com.racovita.wow.features.base.view.BaseProductsAdapter

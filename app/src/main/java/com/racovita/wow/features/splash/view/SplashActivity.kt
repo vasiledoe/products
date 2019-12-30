@@ -2,7 +2,7 @@ package com.racovita.wow.features.splash.view
 
 import android.content.Intent
 import android.os.Bundle
-import com.racovita.wow.features.produts.view.ProductsActivity
+import com.racovita.wow.features.products.view.ProductsActivity
 import com.racovita.wow.features.base.view.BaseActivity
 
 /**
@@ -21,7 +21,7 @@ class SplashActivity : BaseActivity() {
 
     /**
      * Go to home screen and terminate this activity, so when user will press back button
-     * from [ProductsActivity], this <SplashActivity> will not be shown because is not in
+     * from [ProductsActivity], this [SplashActivity] will not be shown because is not in
      * back stack anymore
      */
     private fun goToNextActivity() {

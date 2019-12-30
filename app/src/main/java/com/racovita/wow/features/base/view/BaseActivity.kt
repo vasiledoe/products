@@ -3,7 +3,7 @@ package com.racovita.wow.features.base.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import com.racovita.wow.features.details.view.ActivityDetails
+import com.racovita.wow.features.details.view.DetailsActivity
 
 /**
  * Common functional for all Activities
@@ -27,8 +27,8 @@ open class BaseActivity : AppCompatActivity() {
      * how I'll do it ;)
      */
     protected fun goToDetails(productId: Int) {
-        val intent = Intent(this, ActivityDetails::class.java)
-        intent.putExtra(ActivityDetails.EXTRA_PROD_ID, productId)
+        val intent = Intent(this, DetailsActivity::class.java)
+        intent.putExtra(DetailsActivity.EXTRA_PROD_ID, productId)
         startActivityForResult(intent, CODE_RECEIVED_FAVORITE_META)
     }
 
@@ -36,5 +36,4 @@ open class BaseActivity : AppCompatActivity() {
         const val CODE_RECEIVED_FAVORITE_META = 900
         const val FAVORITE_META_EXTRA = "FAVORITE_META_EXTRA"
     }
-
 }

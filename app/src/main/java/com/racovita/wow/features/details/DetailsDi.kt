@@ -8,7 +8,6 @@ import org.koin.experimental.builder.single
 
 
 val detailsModule = module {
-
     viewModel<DetailsViewModel>()
     single<ProductDetailsRepo>()
 }

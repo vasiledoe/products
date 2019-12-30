@@ -24,7 +24,7 @@ class FavoritesAdapter(
     }
 
     override fun updateItemsFavState(metaToUpdate: HashMap<Int, Boolean>) {
-        for ((productId, isFavorite) in metaToUpdate) {
+        for ((productId, _) in metaToUpdate) {
             val indexPosition = items.indexOf(items.find { it.id == productId })
             items.removeAt(indexPosition)
             notifyItemRemoved(indexPosition)

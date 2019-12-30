@@ -4,7 +4,7 @@ import android.app.Application
 import com.racovita.wow.data.db.storageModule
 import com.racovita.wow.features.details.detailsModule
 import com.racovita.wow.features.favorites.favoriteModule
-import com.racovita.wow.features.produts.productsModule
+import com.racovita.wow.features.products.productsModule
 import com.racovita.wow.utils.utilsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin

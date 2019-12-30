@@ -1,4 +1,4 @@
-package com.racovita.wow.features.produts.view
+package com.racovita.wow.features.products.view
 
 import android.app.Activity
 import android.content.Intent
@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.racovita.wow.R
 import com.racovita.wow.data.models.Product
 import com.racovita.wow.features.base.view.BaseActivity
-import com.racovita.wow.features.favorites.view.ActivityFavorites
-import com.racovita.wow.features.produts.view_model.ProductsViewModel
+import com.racovita.wow.features.details.view.DetailsActivity
+import com.racovita.wow.features.favorites.view.FavoritesActivity
+import com.racovita.wow.features.products.view_model.ProductsViewModel
 import com.racovita.wow.utils.extensions.hide
 import com.racovita.wow.utils.extensions.show
 import kotlinx.android.synthetic.main.content_products.*
@@ -41,7 +42,7 @@ class ProductsActivity : BaseActivity() {
     }
 
     /**
-     * Listen to data pushed from [ProductsAdapter]
+     * Listen to data pushed to update UI
      */
     private fun onBindModel() {
         mViewModel.error.observe(this, Observer { errorStr ->
@@ -158,7 +159,7 @@ class ProductsActivity : BaseActivity() {
         return when (item.itemId) {
             R.id.action_favorite -> {
                 startActivityForResult(
-                    Intent(this, ActivityFavorites::class.java),
+                    Intent(this, FavoritesActivity::class.java),
                     CODE_RECEIVED_FAVORITE_META
                 )
                 return true
@@ -169,8 +170,8 @@ class ProductsActivity : BaseActivity() {
     }
 
     /**
-     * Here we receive a [HashMap] with products that changed status from [ActivityDetails] or
-     * from [ActivityFavorites]
+     * Here we receive a [HashMap] with products that changed status from [DetailsActivity] or
+     * from [FavoritesActivity]
      *
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

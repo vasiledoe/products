@@ -7,7 +7,6 @@ import org.koin.dsl.module
 import org.koin.experimental.builder.single
 
 val favoriteModule = module {
-
     viewModel<FavoritesViewModel>()
     single<FavoritesRepo>()
 }

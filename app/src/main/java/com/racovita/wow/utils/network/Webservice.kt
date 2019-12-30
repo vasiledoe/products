@@ -1,7 +1,7 @@
 package com.racovita.wow.utils.network
 
 import com.racovita.wow.data.models.ApiProduct
-import com.racovita.wow.features.produts.repo.ProductsRepo
+import com.racovita.wow.features.products.repo.ProductsRepo
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
